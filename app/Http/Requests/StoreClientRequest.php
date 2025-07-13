@@ -3,39 +3,58 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class StoreClientRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
-         return [
+        return [
             'nome'            => 'required|string|max:255',
             'data_nascimento' => 'required|date',
-            'cpf'             => 'required|string|size:11|unique:clients,cpf',
+            'cpf'             => 'required|string|size:14|unique:clients,cpf',
         ];
     }
 
-      public function messages(): array
+    public function messages(): array
     {
         return [
             'nome.required' => 'O nome é obrigatório.',
             'data_nascimento.required' => 'A data de nascimento é obrigatória.',
-            'cpf.size' => 'O CPF deve conter exatamente 11 dígitos.',
-            'cpf.unique' => 'Esse CPF já está cadastrado.',
+            'data_nascimento.date' => 'A data de nascimento deve ser válida (YYYY-MM-DD).',
             'cpf.required' => 'O CPF é obrigatório.',
+            'cpf.size' => 'O CPF deve estar no formato 000.000.000-00.',
+            'cpf.unique' => 'Esse CPF já está cadastrado.',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->filled('data_nascimento')) {
+            try {
+                $data = $this->data_nascimento;
+
+                if (preg_match('/^\d{8}$/', $data)) {
+                    $data = Carbon::createFromFormat('dmY', $data)->format('Y-m-d');
+                }
+                elseif (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $data)) {
+                    $data = Carbon::createFromFormat('d/m/Y', $data)->format('Y-m-d');
+                }
+
+                $this->merge(['data_nascimento' => $data]);
+            } catch (\Exception $e) {
+            }
+        }
+
+        if ($this->filled('cpf') && strlen($this->cpf) === 11 && ctype_digit($this->cpf)) {
+            $this->merge([
+                'cpf' => preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $this->cpf),
+            ]);
+        }
     }
 }

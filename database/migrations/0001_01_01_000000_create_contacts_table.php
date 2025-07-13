@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cliente_id')->constrained('clients');
+            $table->foreignId('cliente_id')->constrained('clients')->onDelete('cascade');
             $table->string('tipo');
             $table->string('descricao');
             $table->timestamps();

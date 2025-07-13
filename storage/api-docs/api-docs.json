@@ -1,0 +1,317 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Clientes",
+        "description": "Documentação da API de gerenciamento de clientes utilizando Swagger",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/clients": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Lista todos os clientes",
+                "operationId": "d00d20521584ab5da83e088abb7aded2",
+                "responses": {
+                    "200": {
+                        "description": "Lista de clientes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nome": {
+                                                "type": "string",
+                                                "example": "Taiane Melo"
+                                            },
+                                            "data_nascimento": {
+                                                "type": "string",
+                                                "example": "01/09/2002"
+                                            },
+                                            "cpf": {
+                                                "type": "string",
+                                                "example": "123.456.789-00"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "example": "01/07/2025 12:00:00"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "example": "01/07/2025 12:30:00"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Cadastra um novo cliente",
+                "operationId": "f1e86e5b79fedfa6593067977292b13b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "data_nascimento",
+                                    "cpf"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Taiane Melo"
+                                    },
+                                    "data_nascimento": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "01/09/2002, 01092002 ou 2002-09-01"
+                                    },
+                                    "cpf": {
+                                        "type": "string",
+                                        "example": "1234567800"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cliente cadastrado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cliente cadastrado com sucesso!"
+                                        },
+                                        "cliente": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "nome": {
+                                                    "type": "string",
+                                                    "example": "Taiane Melo"
+                                                },
+                                                "data_nascimento": {
+                                                    "type": "string",
+                                                    "example": "01/09/2002"
+                                                },
+                                                "cpf": {
+                                                    "type": "string",
+                                                    "example": "12345678900"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "13/07/2025 09:45:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "13/07/2025 09:45:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/clientes/{id}/contatos": {
+            "get": {
+                "tags": [
+                    "Contatos"
+                ],
+                "summary": "Lista os contatos de um cliente",
+                "operationId": "c6f412528c8a7a5e7d9fe149c8999513",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de contatos do cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "cliente_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "tipo": {
+                                                "type": "string",
+                                                "example": "email"
+                                            },
+                                            "descricao": {
+                                                "type": "string",
+                                                "example": "cliente@email.com"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "example": "13/07/2025 10:00:00"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "example": "13/07/2025 10:10:00"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cliente não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cliente não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contatos": {
+            "post": {
+                "tags": [
+                    "Contatos"
+                ],
+                "summary": "Cadastra um novo contato para um cliente",
+                "operationId": "0977d6cad7bd6f3d2c62abb8593a7770",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cliente_id",
+                                    "tipo",
+                                    "descricao"
+                                ],
+                                "properties": {
+                                    "cliente_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "tipo": {
+                                        "type": "string",
+                                        "example": "telefone"
+                                    },
+                                    "descricao": {
+                                        "type": "string",
+                                        "example": "(69) 99999-8888"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Contato cadastrado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contato do Cliente cadastrado com sucesso!"
+                                        },
+                                        "contato": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "cliente_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "tipo": {
+                                                    "type": "string",
+                                                    "example": "telefone"
+                                                },
+                                                "descricao": {
+                                                    "type": "string",
+                                                    "example": "(69) 99999-8888"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "13/07/2025 10:00:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "13/07/2025 10:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Clientes",
+            "description": "Cadastro e listagem dos clientes"
+        },
+        {
+            "name": "Contatos",
+            "description": "Cadastro e Listagem de contatos dos clientes"
+        }
+    ]
+}
