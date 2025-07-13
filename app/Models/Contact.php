@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Contact extends Model
 {
@@ -14,12 +14,8 @@ class Contact extends Model
     ];
 
 
-     /**
-
-     * Get the comments for the blog post.
-     */
-    public function contact(): HasMany
+    public function client(): BelongsTo
     {
-        return $this->hasMany(Client::class, 'id');
+        return $this->belongsTo(Client::class, 'cliente_id');
     }
 }

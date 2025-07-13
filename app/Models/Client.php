@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Client extends Model
 {
@@ -13,9 +13,8 @@ class Client extends Model
         'cpf'
     ];
 
-    public function client(): HasOne
+    public function contacts(): HasMany
     {
-        return $this->hasOne(Contact::class, 'cliente_id');
+        return $this->hasMany(Contact::class, 'cliente_id');
     }
-
 }
