@@ -1,0 +1,18 @@
+CREATE TABLE clients (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    data_nascimento DATE NOT NULL,
+    cpf VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL
+);
+
+CREATE TABLE contacts (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    cliente_id BIGINT UNSIGNED NOT NULL,
+    tipo VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+    CONSTRAINT fk_contacts_client FOREIGN KEY (cliente_id) REFERENCES clients(id) ON DELETE CASCADE
+);
