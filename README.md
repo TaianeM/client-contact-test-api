@@ -142,12 +142,8 @@ http://localhost/api/documentation
 
 ### Decisões de Arquitetura e Observações
 
-# Estrutura MVC tradicional com uso de FormRequests, Controllers, Models e Factories.
-
-# Documentação gerada com Swagger via L5-Swagger.
-
-# O container MySQL do Sail só tem permissão para acessar o banco laravel, que é o padrão. Certifique-se de usar este nome no .env.
-
-# Testes com Pest PHP (feature) e PHPUnit (unitários) implementados como diferencial técnico.
-
-# Endpoints de Update (PUT) e Delete (DESTROY) implementados como diferencial técnico.
+- Estrutura baseada no padrão **MVC** do Laravel, com uso de **Controllers**, **Models**, **FormRequests** e **Factories**.
+- A documentação da API foi gerada com **Swagger**, utilizando o pacote **L5-Swagger**.
+- O **container MySQL do Sail** permite acesso apenas ao banco de dados com nome padrão `laravel`. Certifique-se de configurar o `.env` corretamente.
+- Foram implementados **testes de feature com Pest PHP** e **testes unitários com PHPUnit**, atendendo à exigência de testes unitários como diferencial técnico.
+- Os endpoints de **atualização (`PUT`)** e **remoção (`DELETE`)** foram incluídos como **diferenciais técnicos**, mesmo não sendo obrigatórios.
