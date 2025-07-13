@@ -91,9 +91,8 @@ Altere o arquivo `.env` conforme suas configurações locais de banco de dados.
 ```bash
 ./vendor/bin/sail up -d
 ./vendor/bin/sail php artisan key:generate
-./vendor/bin/sail php artisan migrate --seed
+./vendor/bin/sail php artisan migrate 
 ./vendor/bin/sail npm install
-./vendor/bin/sail npm run dev
 ```
 
 #### b. Sem Docker:
@@ -118,15 +117,37 @@ Após configurar o projeto, gere a documentação com:
 Acesse via navegador:
 
 ```
-http://localhost/docs
+http://localhost/api/documentation
 ```
 
 ---
 
-## Executando Testes com Pest PHP
+## Executando Testes com Pest PHP - Testes de funcionalidade, o qual validam o comportamento da API na prática.
 
 ```bash
 ./vendor/bin/sail test
 ```
 
 ---
+
+---
+
+## Executando Testes com PHPUnit - Testes unitários, o qual checam as regras de validação dos dados.
+
+```bash
+./vendor/bin/sail test tests/Unit
+```
+
+---
+
+### Decisões de Arquitetura e Observações
+
+# Estrutura MVC tradicional com uso de FormRequests, Controllers, Models e Factories.
+
+# Documentação gerada com Swagger via L5-Swagger.
+
+# O container MySQL do Sail só tem permissão para acessar o banco laravel, que é o padrão. Certifique-se de usar este nome no .env.
+
+# Testes com Pest PHP (feature) e PHPUnit (unitários) implementados como diferencial técnico.
+
+# Endpoints de Update (PUT) e Delete (DESTROY) implementados como diferencial técnico.
