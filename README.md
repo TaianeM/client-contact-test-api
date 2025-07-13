@@ -120,6 +120,11 @@ Acesse via navegador:
 http://localhost/api/documentation
 ```
 
+
+Abaixo, um exemplo visual da documentação gerada automaticamente com **Swagger (L5-Swagger)**:
+
+![Swagger Screenshot](public/images/docs_swagger.png)
+
 ---
 
 ## Executando Testes com Pest PHP - Testes de funcionalidade, o qual validam o comportamento da API na prática.
@@ -147,3 +152,4 @@ http://localhost/api/documentation
 - O **container MySQL do Sail** permite acesso apenas ao banco de dados com nome padrão `laravel`. Certifique-se de configurar o `.env` corretamente.
 - Foram implementados **testes de feature com Pest PHP** e **testes unitários com PHPUnit**, atendendo à exigência de testes unitários como diferencial técnico.
 - Os endpoints de **atualização (`PUT`)** e **remoção (`DELETE`)** foram incluídos como **diferenciais técnicos**, mesmo não sendo obrigatórios.
+
