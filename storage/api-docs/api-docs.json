@@ -140,6 +140,86 @@
                 }
             }
         },
+        "/api/clientes/{id}": {
+            "put": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Atualiza um cliente existente",
+                "operationId": "525f2b80124a6bd8ae940959398f4be5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cliente a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Novo Nome"
+                                    },
+                                    "cpf": {
+                                        "type": "string",
+                                        "example": "123.456.789-00"
+                                    },
+                                    "data_nascimento": {
+                                        "type": "string",
+                                        "example": "01/01/2000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cliente atualizado com sucesso"
+                    },
+                    "404": {
+                        "description": "Cliente não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Remove um cliente",
+                "operationId": "c044fbce43dbc08512b86465ee3f0bef",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cliente a ser removido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cliente removido com sucesso"
+                    },
+                    "404": {
+                        "description": "Cliente não encontrado"
+                    }
+                }
+            }
+        },
         "/api/clientes/{id}/contatos": {
             "get": {
                 "tags": [
@@ -299,6 +379,137 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/contatos/{id}": {
+            "put": {
+                "tags": [
+                    "Contatos"
+                ],
+                "summary": "Atualiza um contato existente",
+                "operationId": "2317b665e7a543cc43431db8227786a4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do contato",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "tipo",
+                                    "descricao"
+                                ],
+                                "properties": {
+                                    "tipo": {
+                                        "type": "string",
+                                        "example": "email"
+                                    },
+                                    "descricao": {
+                                        "type": "string",
+                                        "example": "novo@email.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contato atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contato atualizado com sucesso!"
+                                        },
+                                        "contato": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "cliente_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "tipo": {
+                                                    "type": "string",
+                                                    "example": "email"
+                                                },
+                                                "descricao": {
+                                                    "type": "string",
+                                                    "example": "novo@email.com"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "13/07/2025 11:30:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contato não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Contatos"
+                ],
+                "summary": "Remove um contato",
+                "operationId": "c1a70bb32c8caff1353abb0498321717",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do contato",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contato removido com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contato removido com sucesso."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contato não encontrado"
                     }
                 }
             }
