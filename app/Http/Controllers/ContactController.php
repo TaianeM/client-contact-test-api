@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\UpdateContactRequest;
 use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 
@@ -124,4 +125,108 @@ class ContactController extends Controller
             ]
         ], 201);
     }
+
+/**
+ * @OA\Put(
+ *     path="/api/contatos/{id}",
+ *     tags={"Contatos"},
+ *     summary="Atualiza um contato existente",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID do contato",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"tipo", "descricao"},
+ *             @OA\Property(property="tipo", type="string", example="email"),
+ *             @OA\Property(property="descricao", type="string", example="novo@email.com")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Contato atualizado com sucesso",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Contato atualizado com sucesso!"),
+ *             @OA\Property(
+ *                 property="contato",
+ *                 type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="cliente_id", type="integer", example=1),
+ *                 @OA\Property(property="tipo", type="string", example="email"),
+ *                 @OA\Property(property="descricao", type="string", example="novo@email.com"),
+ *                 @OA\Property(property="updated_at", type="string", example="13/07/2025 11:30:00")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Contato não encontrado"
+ *     )
+ * )
+ */
+public function update(UpdateContactRequest $request, $id): JsonResponse
+{
+    $contato = Contact::find($id);
+
+    if (!$contato) {
+        return response()->json(['message' => 'Contato não encontrado.'], 404);
+    }
+
+    $contato->update($request->validated());
+
+    return response()->json([
+        'message' => 'Contato atualizado com sucesso!',
+        'contato' => [
+            'id' => $contato->id,
+            'cliente_id' => $contato->cliente_id,
+            'tipo' => $contato->tipo,
+            'descricao' => $contato->descricao,
+            'updated_at' => $contato->updated_at->format('d/m/Y H:i:s'),
+        ]
+    ]);
+}
+
+/**
+ * @OA\Delete(
+ *     path="/api/contatos/{id}",
+ *     tags={"Contatos"},
+ *     summary="Remove um contato",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID do contato",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Contato removido com sucesso",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Contato removido com sucesso.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Contato não encontrado"
+ *     )
+ * )
+ */
+public function destroy($id): JsonResponse
+{
+    $contato = Contact::find($id);
+
+    if (!$contato) {
+        return response()->json(['message' => 'Contato não encontrado.'], 404);
+    }
+
+    $contato->delete();
+
+    return response()->json(['message' => 'Contato removido com sucesso.'], 200);
+}
+
+
 }

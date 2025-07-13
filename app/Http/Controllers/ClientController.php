@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use Illuminate\Http\JsonResponse;
@@ -109,5 +110,91 @@ class ClientController extends Controller
         });
 
         return response()->json($clientes, 200);
+    }
+        /**
+     * @OA\Put(
+     *     path="/api/clientes/{id}",
+     *     tags={"Clientes"},
+     *     summary="Atualiza um cliente existente",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID do cliente a ser atualizado",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nome", type="string", example="Novo Nome"),
+     *             @OA\Property(property="cpf", type="string", example="123.456.789-00"),
+     *             @OA\Property(property="data_nascimento", type="string", example="01/01/2000")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cliente atualizado com sucesso"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cliente não encontrado"
+     *     )
+     * )
+     */
+    public function update(UpdateClientRequest $request, $id): JsonResponse
+    {
+        $cliente = Client::find($id);
+
+        if (!$cliente) {
+            return response()->json(['message' => 'Cliente não encontrado.'], 404);
+        }
+
+        $cliente->update($request->validated());
+
+        return response()->json([
+            'message' => 'Cliente atualizado com sucesso!',
+            'cliente' => [
+                'id' => $cliente->id,
+                'nome' => $cliente->nome,
+                'data_nascimento' => Carbon::parse($cliente->data_nascimento)->format('d/m/Y'),
+                'cpf' => $cliente->cpf,
+                'updated_at' => Carbon::parse($cliente->updated_at)->format('d/m/Y H:i:s'),
+            ]
+        ]);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/clientes/{id}",
+     *     tags={"Clientes"},
+     *     summary="Remove um cliente",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID do cliente a ser removido",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cliente removido com sucesso"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cliente não encontrado"
+     *     )
+     * )
+     */
+    public function destroy($id): JsonResponse
+    {
+        $cliente = Client::find($id);
+
+        if (!$cliente) {
+            return response()->json(['message' => 'Cliente não encontrado.'], 404);
+        }
+
+        $cliente->delete();
+
+        return response()->json(['message' => 'Cliente removido com sucesso.']);
     }
 }
