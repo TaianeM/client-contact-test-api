@@ -32,8 +32,10 @@ class StoreClientRequest extends FormRequest
     {
         return [
             'nome.required' => 'O nome é obrigatório.',
+            'data_nascimento.required' => 'A data de nascimento é obrigatória.',
             'cpf.size' => 'O CPF deve conter exatamente 11 dígitos.',
             'cpf.unique' => 'Esse CPF já está cadastrado.',
+            'cpf.required' => 'O CPF é obrigatório.',
         ];
     }
 }
